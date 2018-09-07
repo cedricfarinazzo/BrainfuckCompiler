@@ -10,7 +10,7 @@ BIN=bin/
 
 OCAMLC=ocamlc
 OCAMLCFLAGS=-c -dtypes
-LIBS=unix.cma camlp4o.cma
+LIBS=unix.cma
  
 .PHONY: all clean
  
