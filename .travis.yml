@@ -2,6 +2,9 @@ language: c
 sudo: required
 install: wget https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-opam.sh
 script: bash -ex .travis-opam.sh
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install gcc ocaml
 env:
   - OCAML_VERSION=4.02
   - OCAML_VERSION=4.03
@@ -11,6 +14,5 @@ env:
   - OCAML_VERSION=4.07
 os:
   - linux
-  - osx
 script:
   - make
