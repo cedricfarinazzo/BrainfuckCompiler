@@ -17,12 +17,10 @@ LIBS=unix.cma camlp4o.cma
 all:
 	mkdir $(TMP)
 	cp $(SRC)* $(TMP)
-	cd $(TMP)
-	$(OCAMLC) $(OCAMLCFLAGS) $(LEXER).ml
-	$(OCAMLC) $(OCAMLCFLAGS) $(PARSER).ml
-	$(OCAMLC) $(OCAMLCFLAGS) $(COMPILER).ml
-	$(OCAMLC) -o $(EXEC) $(LIBS) $(COMPILER).cmo $(PARSER).cmo $(LEXER).cmo
-	cd ..
+	cd $(TMP) && $(OCAMLC) $(OCAMLCFLAGS) $(LEXER).ml
+	cd $(TMP) && $(OCAMLC) $(OCAMLCFLAGS) $(PARSER).ml
+	cd $(TMP) && $(OCAMLC) $(OCAMLCFLAGS) $(COMPILER).ml
+	cd $(TMP) && $(OCAMLC) -o $(EXEC) $(LIBS) $(COMPILER).cmo $(PARSER).cmo $(LEXER).cmo
 	cp $(TMP)$(EXEC) $(BIN)
  
 clean:
