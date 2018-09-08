@@ -30,8 +30,9 @@ clean-tmp:
 	rm -rf $(TMP)*
  
 clean: clean-tmp
+	mkdir -p $(BIN)
 	rm -rf $(BIN)*
-	echo "bff" > $(BIN).gitignore
+	touch $(BIN).gitkeep
 	
 runtest: 
 	chmod +x test/test.sh
