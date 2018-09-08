@@ -1,8 +1,10 @@
+#!/bin/bash
+
 echo "Bff Test"
 echo " "
 echo " "
 
-if [[ $(pwd) =~ .*BrainfuckCompiler/? ]]
+if [[ $(pwd) =~ .*BrainfuckCompiler/?$ ]]
 then
 	cd test/
 fi 
