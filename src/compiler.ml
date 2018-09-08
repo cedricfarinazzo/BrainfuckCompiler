@@ -1,4 +1,5 @@
 (*
+#use "tools.ml";;
 #use "lexer.ml";;
 #use "parser.ml";;
 *)
@@ -18,12 +19,18 @@ let arg_speclist = [("-v", Arg.Set verbose, "Enables verbose mode");
 ];;
 
 let main () =
-   begin
+  begin
+     print_endline("Brainfuck Compiler\n\nInit ...\n");
      Arg.parse arg_speclist print_endline usage_msg;
      print_endline ("Verbose mode: " ^ string_of_bool !verbose);
      print_endline ("Input file path: " ^ !input_file_path);
      print_endline ("Output file path: " ^ !output_file_path);
+
+     
    end
 ;;
 
-main ();;
+let () = main ();;
+
+
+
