@@ -1,23 +1,18 @@
-let process_file process filename output =
-    let ch = open_in filename in
-    try while true do process (input_line ch) !output done
-    with End_of_file -> close_in ch
+let implode_reverse l_string =
+  let rec imp_func l s =
+    match l with
+      | [] -> s
+      | [e] -> e^"\n"^s
+      | e::rl -> imp_func rl (e^"\n"^s)
+  in imp_func l_string ""
 ;;
 
-let print_file s output =
-  begin
-    !output := s
-  end
+
+let read_file_lines filename =
+  let rec read_func channel buffer =
+    match try (input_line channel) with End_of_file -> "@@@@@@@END@@@@@@@" with
+      | "@@@@@@@END@@@@@@@" -> buffer
+      | e -> read_func channel (e::buffer)
+  in implode_reverse (read_func (open_in filename) [])
 ;;
 
-let get_result p =
-  !(!(!p))
-;;
-
-let read_text_file filename =
-  let output_file = ref (ref ( ref "")) in
-  let read_func out =
-    process_file print_file filename output_file
-  in
-  read_func output_file; get_result(output_file) 
-;;

@@ -33,7 +33,7 @@ let main () =
      print_endline ("Output file path: " ^ !output_file_path);
 
      print_endline ("\n\nRead input file ...");
-     let input_file_content = Tools.read_text_file (!input_file_path) in
+     let input_file_content = Tools.read_file_lines (!input_file_path) in
      begin     
         print_endline ("\nSyntax checking ...");
         let syntaxOK = Lexer.lex input_file_content in
