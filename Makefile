@@ -16,16 +16,21 @@ LIBS=unix.cma
 .PHONY: all clean
  
 all:
-	mkdir $(TMP)
+	mkdir -p $(TMP)
 	cp $(SRC)* $(TMP)
 	cd $(TMP) && $(OCAMLC) $(OCAMLCFLAGS) $(TOOLS).ml
 	cd $(TMP) && $(OCAMLC) $(OCAMLCFLAGS) $(LEXER).ml
 	cd $(TMP) && $(OCAMLC) $(OCAMLCFLAGS) $(PARSER).ml
 	cd $(TMP) && $(OCAMLC) $(OCAMLCFLAGS) $(COMPILER).ml
-	cd $(TMP) && $(OCAMLC) -o $(EXEC) $(LIBS) $(COMPILER).cmo $(PARSER).cmo $(LEXER).cmo $(TOOLS).cmo
+	cd $(TMP) && $(OCAMLC) -o $(EXEC) $(LIBS) $(TOOLS).cmo $(LEXER).cmo $(PARSER).cmo $(COMPILER).cmo  
 	cp $(TMP)$(EXEC) $(BIN)
+	@make clean-tmp
  
-clean:
+clean-tmp:
 	rm -rf $(TMP)*
+ 
+clean: clean-tmp
 	rm -rf $(BIN)*
 	
+runtest: 
+	./test/test.sh
