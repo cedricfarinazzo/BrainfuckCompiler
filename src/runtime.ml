@@ -111,7 +111,7 @@ let rec run current_char_id memory pointer loop_pile func_pile =
 	      begin
 		let v = nth memory pointer in
 		let skip = v == 0 in
-		if skip then run ((search_end_loop b n)+1) memory pointer loop_pile func_pile else run (n+1) memory pointer (n::loop_pile) func_pile
+		if skip then run ((search_end_loop brainfuck n)+1) memory pointer loop_pile func_pile else run (n+1) memory pointer (n::loop_pile) func_pile
 	      end
 		
 	    | ']' ->
