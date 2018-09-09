@@ -3,7 +3,7 @@ EXEC=bff
 TOOLS=tools
 LIST=bfflist
 LEXER=lexer
-PARSER=parser
+PARSER=runtime
 COMPILER=compiler
 MAIN=main
 
