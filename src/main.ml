@@ -5,7 +5,7 @@ let usage_msg = "Brainfuck Compiler \n\n Usage: \n\n";;
 
 let verbose = ref false;;
 let input_file_path = ref "brainfuck.b";;
-let output_file_path = ref "./brainfuck.exe";;
+let output_file_path = ref "";;
  
 let set_input_file input_file = input_file_path := input_file;; 
 let set_output_file output_file = output_file_path := output_file;;
@@ -37,9 +37,17 @@ let main () =
      begin     
         print_endline ("\nSyntax checking ...");
         let syntaxOK = Lexer.lex input_file_content in
-        syntax_checking_action syntaxOK; 
+        syntax_checking_action syntaxOK;
+	if (String.length !output_file_path) == 0 then
+	  begin
+	    print_endline ("\nRunning mode\n\n");
+	    Runtime.main input_file_content
+	  end
+	else
+	  begin
+	     print_endline ("\nBuilding mode\n\n");
+	  end
      end
-     
    end
 ;;
 

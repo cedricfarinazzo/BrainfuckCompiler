@@ -25,5 +25,13 @@ then
 	exit 1
 fi
 
+echo "########### TEST 3"
+echo " "
+../bin/bff -i brainfuck.func.b
+if [ $? != 0 ]
+then
+	exit 1
+fi
+
 
 

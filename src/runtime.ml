@@ -1,4 +1,4 @@
-let brainfuck = "123++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.";;
+let brainfuck = "{{ BRAIN**** }}"
 
 let rec init_list length value =
   match length with
@@ -69,28 +69,50 @@ let search_end_loop b n =
   in search n
 ;;
 
+let search_end_func b n =
+  let rec search n =
+    match n with
+	n when n >= String.length b -> failwith "Runtime.search_end_fuck"
+      | n ->
+	match b.[n] with
+	    c when c == ')' -> n
+	  | _ -> search (n+1)
+  in search n
+;;
+
+let rec get_func pointer func_pile =
+  match func_pile with
+      [] -> failwith "Runtime.get_func"
+    | (p,d)::_ when pointer == p -> d
+    | _::l -> get_func pointer l
+;;
+
 let normalize_value v =
   match v with
       v when v < 0 -> 256 + v
     | v when v >= 256 -> v mod 256
     | v -> v
 ;;
-      
-let loop_pile = [];;
-let func_pile = [];;
 
-let len_memory = get_mem_length brainfuck;;
-let memory = init_list len_memory 0;;
-let pointer = 0;;
+let normalize_pointer pointer len_memory =
+  match pointer with
+      pointer when pointer < 0 -> 0
+    | pointer -> pointer mod len_memory
+;;
 
-let current_char_id = 0;;
-let len_brainfuck = String.length brainfuck;;
-
-let rec run current_char_id memory pointer loop_pile func_pile =
-  match current_char_id with
-      n when n < 0 -> failwith "Runtime.run"
-    | n when n == len_brainfuck -> ()
-    | n ->
+let runbrainfuck brainfuck=
+  let loop_pile = [] in
+  let func_pile = [] in
+  let len_memory = get_mem_length brainfuck in
+  let memory = init_list len_memory 0 in
+  let pointer = 0 in
+  (* let current_char_id = 0 in *)
+  let len_brainfuck = String.length brainfuck in
+  let rec run current_char_id memory pointer loop_pile func_pile =
+    match current_char_id with
+	n when n < 0 -> failwith "Runtime.run"
+      | n when n == len_brainfuck -> ()
+      | n ->
 	let compute c =
 	  match c with
 	    | '+' ->
@@ -105,8 +127,8 @@ let rec run current_char_id memory pointer loop_pile func_pile =
 		run (n+1) memory pointer loop_pile func_pile;
 	      end
 		
-	    | '<' -> run (n+1) memory (pointer-1) loop_pile func_pile
-	    | '>' -> run (n+1) memory (pointer+1) loop_pile func_pile
+	    | '<' -> run (n+1) memory (normalize_pointer (pointer-1) len_memory) loop_pile func_pile
+	    | '>' -> run (n+1) memory (normalize_pointer (pointer+1) len_memory) loop_pile func_pile
 	    | '[' ->
 	      begin
 		let v = nth memory pointer in
@@ -128,11 +150,33 @@ let rec run current_char_id memory pointer loop_pile func_pile =
 		run (n+1) memory pointer loop_pile func_pile
 	      end
 		
-	    | ')' -> run (n+1) memory pointer loop_pile func_pile
-	    | '(' -> run (n+1) memory pointer loop_pile func_pile
+	    | '(' ->
+		let execute = ')' == brainfuck.[n+1] in
+		if execute then
+		  begin
+		    let (head_func, _) = get_func pointer func_pile in
+		    run (head_func + 1) memory pointer loop_pile func_pile;
+		    run (n+2) memory pointer loop_pile func_pile
+		  end
+		else
+		  begin
+		    let end_func = search_end_func brainfuck n in
+		    let func_pile = (pointer, (n, end_func))::func_pile in
+		    run (end_func+1) memory pointer loop_pile func_pile
+		  end
+		    
+	    | ')' -> ()
 	    | 'd' -> dump_mem memory; run (n+1) memory pointer loop_pile func_pile
 	    | _ -> run (n+1) memory pointer loop_pile  func_pile
 	in compute (brainfuck.[n])
+  in run 0 memory pointer loop_pile func_pile
 ;;
 
-let runbrainfuck () = run 0 memory pointer loop_pile func_pile;;
+
+let main brainfuck =
+  match brainfuck with
+      brainfuck when brainfuck != "{{ BRAIN**** }}" -> runbrainfuck brainfuck
+    | _ -> ()
+;;
+
+main brainfuck;;
