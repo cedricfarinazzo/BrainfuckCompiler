@@ -33,5 +33,18 @@ then
 	exit 1
 fi
 
+echo "########### TEST 4"
+echo " "
+../bin/bff -i brainfuck.func.b -o brainfuck.exe
+if [ $? != 0 ]
+then
+	exit 1
+fi
+./brainfuck.exe
+if [ $? != 0 ]
+then
+	exit 1
+fi
+
 
 

@@ -26,6 +26,18 @@ Bff is a brainfuck compiler made in Caml.
 
 ## Usage
 
+### Help
+
+```
+$ bff -help
+```
+
+### Verbose mode
+
+```
+$ bff -v ...
+```
+
 ### Running mode
 
 ```
