@@ -24,6 +24,23 @@ You can found executable files in bin folder.
 
 Bff is a brainfuck compiler made in Caml.
 
+## Usage
+
+### Running mode
+
+```
+$ bff -i brainfuck.b
+Hello World!
+```
+
+### Building mode 
+
+```
+$ ./bff -i brainfuck.b -o brainfuck.exe
+$ ./brainfuck.exe
+Hello World!
+```
+
 ## Contribute
 
 - Fork this project

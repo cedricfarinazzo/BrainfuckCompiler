@@ -16,3 +16,7 @@ let read_file_lines filename =
   in implode_reverse (read_func (open_in filename) [])
 ;;
 
+let write_file file s =
+  let channel = open_out file in
+  output_string channel s;
+  close_out channel;;

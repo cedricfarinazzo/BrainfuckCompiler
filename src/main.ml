@@ -45,7 +45,9 @@ let main () =
 	  end
 	else
 	  begin
-	     print_endline ("\nBuilding mode\n\n");
+	    print_endline ("\nBuilding mode\n\n");
+	    let code = Compiler.main !output_file_path input_file_content
+	    in print_endline ("Build code : "^(string_of_int code))
 	  end
      end
    end
